@@ -28,7 +28,7 @@ class EventsViewController: UIViewController
     
     @IBOutlet weak var eventsCollectionView: UICollectionView!
     
-    let events: [Event] = [Event(eventTitle: "Code Reading Session",eventImageString: "Code-Reading Event", eventDueDate: "2018-05-19 20:00:00", eventStatus: .anticipated)]
+    let events: [Event] = [Event(eventTitle: "Code Reading Session",eventImageString: "Code-Reading Event", eventDueDate: "2018-09-22 20:00:00", eventStatus: .anticipated)]
     
     
     override func viewDidLoad()

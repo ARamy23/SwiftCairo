@@ -14,6 +14,10 @@ struct Message
     let To: String?
     let Timestamp: String?
     let Text: String?
+    let ImageURL: String?
+    let VideoURL: String?
+    let ImageWidth: NSNumber?
+    let ImageHeight: NSNumber?
     
     func chatIdPartner() -> String?
     {
@@ -28,5 +32,17 @@ struct Message
         }
         
         return From == SharedData.sharedInstance.uid ? To : From 
+    }
+    
+    init(dictionary: [String: Any]) {
+        From = dictionary["From"] as? String
+        To = dictionary["To"] as? String
+        Timestamp = dictionary["Timestamp"] as? String
+        Text = dictionary["Text"] as? String
+        ImageURL = dictionary["ImageURL"] as? String
+        VideoURL = dictionary["VideoURL"] as? String
+        ImageWidth = dictionary["ImageWidth"] as? NSNumber
+        ImageHeight = dictionary["ImageHeight"] as? NSNumber
+        
     }
 }

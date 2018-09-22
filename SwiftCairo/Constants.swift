@@ -45,6 +45,7 @@ struct SharedData
     let usersMessagesRef = Database.database().reference(fromURL: Constants.dbURL.rawValue).child("Users-Messages")
     let uid = Auth.auth().currentUser?.uid
     let currentUserRef = Database.database().reference(fromURL: Constants.dbURL.rawValue).child("Users").child((Auth.auth().currentUser?.uid)!)
+    let messagesImagesRef = Storage.storage().reference().child("Message-Images")
     private init()
     {
         

@@ -15,10 +15,10 @@ class MessagesViewController: UIViewController {
 
     @IBOutlet weak var messagesTableView: UITableView!
     
-    var messages = [Message]()
     var messagesDictionary = [String: Message]()
+    var messages = [Message]()
     var users = [SwiftyCairoer]()
-    
+    var timer: Timer?
     var willViewAppear = false
     
     override func viewDidLoad()
@@ -27,6 +27,8 @@ class MessagesViewController: UIViewController {
         
         handleMessagesObservation()
         setupUI()
+        messagesTableView.allowsMultipleSelection = true
+        
     }
     
     
@@ -145,6 +147,29 @@ extension MessagesViewController: UITableViewDelegate, UITableViewDataSource
         let cell = messagesTableView.dequeueReusableCell(withClass: UserCell.self, for: indexPath)
         cell?.message = messages[indexPath.row]
         return cell!
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        let usersMessagesRef = SharedData.sharedInstance.usersMessagesRef
+        let uid = SharedData.sharedInstance.uid!
+        let message = messages[indexPath.item]
+        if let chatPartnerID = message.chatIdPartner()
+        {
+            usersMessagesRef.child(uid).child(chatPartnerID).removeValue { (error, ref) in
+                if error != nil
+                {
+                    SVProgressHUD.showError(withStatus: error.debugDescription)
+                    return
+                }
+                
+                self.messagesTableView.deleteRows(at: [indexPath], with: .automatic)
+                self.messages.remove(at: indexPath.item)
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
